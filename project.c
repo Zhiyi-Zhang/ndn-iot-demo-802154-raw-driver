@@ -102,7 +102,6 @@ int main(void)
 	 * when close to each other.
 	 * (TX power is reduced to minimum for this testing scenario.)
 	 */
-
 	const uint8_t extended_address[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
 	const uint8_t pan_id[]           = {0xd0, 0x0f};
 	const uint8_t short_address[]    = {0x12, 0x34};
@@ -114,6 +113,7 @@ int main(void)
 		while(1) { /* endless */ };
 
 	nrfx_gpiote_out_init(led, &led_config);
+        nrfx_gpiote_out_toggle(led);
 
 	if(NRFX_SUCCESS != nrfx_uarte_init(&uart0, &uart_config, NULL))
 		while(1) { /* endless */ };
@@ -200,4 +200,3 @@ void nrf_802154_received(uint8_t * p_data, uint8_t length, int8_t power, uint8_t
 
 	nrf_802154_buffer_free(p_data);
 }
-

@@ -56,7 +56,7 @@ SOURCES_CXX := \
 
 SDK_CONFIG_FILE := nrfx_config.h
 
-BMP_DEVICE ?= /dev/ttyACM0
+BMP_DEVICE ?= /dev/tty.usbmodem000683296867
 BMP_OTHER_DEVICE ?= /dev/ttyACM2
 
 ###
@@ -177,4 +177,3 @@ flash: $(BINARY_NAME).elf
 
 flash_other: $(BINARY_NAME).elf
 	yes | $(GDB) $(BINARY_NAME).elf -ex 'target extended-remote $(BMP_OTHER_DEVICE)' -ex 'mon swdp_scan' -ex 'attach 1' -ex 'mon erase_mass' -ex 'run' -ex 'load' -ex 'quit'
-

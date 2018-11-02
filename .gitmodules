@@ -7,3 +7,9 @@
 [submodule "nRF-IEEE-802.15.4-radio-driver"]
 	path = nRF-IEEE-802.15.4-radio-driver
 	url = https://github.com/NordicSemiconductor/nRF-IEEE-802.15.4-radio-driver.git
+[submodule "ndn-riot"]
+	path = ndn-riot
+	url = git@github.com:Zhiyi-Zhang/ndn-riot.git
+[submodule "ndn_standalone"]
+	path = ndn_standalone
+	url = git@github.com:Zhiyi-Zhang/ndn_standalone.git

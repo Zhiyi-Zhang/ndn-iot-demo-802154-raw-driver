@@ -48,9 +48,32 @@ SOURCES_C := \
 	nrfx/drivers/src/nrfx_gpiote.c							\
 	nrfx/drivers/src/prs/nrfx_prs.c							\
 	syscalls.c									\
+ndn_standalone/encode/data.c \
+ndn_standalone/encode/decoder.c \
+ndn_standalone/encode/encoder.c \
+ndn_standalone/encode/interest.c \
+ndn_standalone/encode/metainfo.c \
+ndn_standalone/encode/name-component.c \
+ndn_standalone/encode/name.c \
+ndn_standalone/encode/signature.c \
+ndn_standalone/security/sign-verify.c \
+ndn_standalone/security/micro-ecc/uECC.c \
+ndn_standalone/security/tinycrypt/aes_decrypt.c \
+ndn_standalone/security/tinycrypt/aes_encrypt.c \
+ndn_standalone/security/tinycrypt/cbc_mode.c \
+ndn_standalone/security/tinycrypt/ccm_mode.c \
+ndn_standalone/security/tinycrypt/cmac_mode.c \
+ndn_standalone/security/tinycrypt/ctr_mode.c \
+ndn_standalone/security/tinycrypt/ctr_prng.c \
+ndn_standalone/security/tinycrypt/ecc_dh.c \
+ndn_standalone/security/tinycrypt/ecc_dsa.c \
+ndn_standalone/security/tinycrypt/ecc_platform_specific.c \
+ndn_standalone/security/tinycrypt/ecc.c \
+ndn_standalone/security/tinycrypt/hmac_prng.c \
+ndn_standalone/security/tinycrypt/hmac.c \
+ndn_standalone/security/tinycrypt/sha256.c \
+ndn_standalone/security/tinycrypt/utils.c \
 	$(PROJECT_NAME).c
-
-SOURCES_CXX := \
 
 ###
 
@@ -110,6 +133,7 @@ CXXC_INCLUDE_FLAGS += -Inrfx/mdk
 CXXC_INCLUDE_FLAGS += -Inrfx/soc
 CXXC_INCLUDE_FLAGS += -ICMSIS_5/CMSIS/Core/Include/
 CXXC_INCLUDE_FLAGS += -InRF-IEEE-802.15.4-radio-driver/src -InRF-IEEE-802.15.4-radio-driver/src/raal
+CXXC_INCLUDE_FLAGS += -Indn_standalone/
 CXXC_INCLUDE_FLAGS += -I.
 
 DEBUG_OPTIMIZE_FLAGS += -O3 -g -gdwarf-4

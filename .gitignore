@@ -8,3 +8,5 @@ _build
 *.map
 *.o
 *.su
+.DS*
+*/.DS*

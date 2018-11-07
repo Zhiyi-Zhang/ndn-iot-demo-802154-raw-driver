@@ -73,6 +73,7 @@ ndn_standalone/security/tinycrypt/hmac_prng.c \
 ndn_standalone/security/tinycrypt/hmac.c \
 ndn_standalone/security/tinycrypt/sha256.c \
 ndn_standalone/security/tinycrypt/utils.c \
+ndn_standalone/adaptation/ndn-nrf52840.c \
 	$(PROJECT_NAME).c
 
 ###
@@ -124,7 +125,7 @@ DEFINE_FLAGS += -DCONFIG_GPIO_AS_PINRESET
 DEFINE_FLAGS += -D$(CPUDEFINE)
 DEFINE_FLAGS += -D__HEAP_SIZE=$(HEAPSIZE)
 DEFINE_FLAGS += -D__STACK_SIZE=$(STACKSIZE)
-DEFINE_FLAGS += -DRAAL_SINGLE_PHY -DNRF_802154_USE_RAW_API=0 -DNRF_802154_CLOCK_LFCLK_SOURCE=CLOCK_LFCLKSRC_SRC_Synth
+DEFINE_FLAGS += -DRAAL_SINGLE_PHY -DNRF_802154_USE_RAW_API=0 -DNRF_802154_CLOCK_LFCLK_SOURCE=CLOCK_LFCLKSRC_SRC_Synth -DNRF_802154_ACK_TIMEOUT_ENABLED
 
 CXXC_INCLUDE_FLAGS += -Inrfx
 CXXC_INCLUDE_FLAGS += -Inrfx/drivers/include

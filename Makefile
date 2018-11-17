@@ -73,7 +73,12 @@ ndn_standalone/security/tinycrypt/hmac_prng.c \
 ndn_standalone/security/tinycrypt/hmac.c \
 ndn_standalone/security/tinycrypt/sha256.c \
 ndn_standalone/security/tinycrypt/utils.c \
-ndn_standalone/adaptation/ndn-nrf52840.c \
+ndn_standalone/forwarder/memory-pool.c \
+ndn_standalone/forwarder/pit.c \
+ndn_standalone/forwarder/face.c \
+ndn_standalone/forwarder/forwarder.c \
+ndn_standalone/face/direct-face.c \
+ndn_standalone/face/ndn-nrf-802154-face.c \
 	$(PROJECT_NAME).c
 
 ###
@@ -190,6 +195,7 @@ all: $(BINARY_NAME).elf $(BINARY_NAME).asm $(BINARY_NAME).hex $(BINARY_NAME).bin
 clean:
 	-rm $(OBJECTS) $(LISTINGS) $(STACKUSAGES)
 	-rm $(BINARY_NAME).asm $(BINARY_NAME).bin $(BINARY_NAME).elf $(BINARY_NAME).hex $(BINARY_NAME).map
+	-rm -f *.o *~ *.su
 
 nrfx_config:
 	java -jar support/cmsisconfig/CMSIS_Configuration_Wizard.jar $(SDK_CONFIG_FILE)

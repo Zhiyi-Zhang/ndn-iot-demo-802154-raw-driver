@@ -6,6 +6,7 @@
 #include <strings.h>
 
 #include <adaptation/ndn-nrf52840.h>
+#include <face/direct-face.h>
 
 static const uint32_t led = NRF_GPIO_PIN_MAP(0,13);
 
@@ -48,7 +49,7 @@ static void blink_led(int i) {
 }
 
 int
-on_data_callback(uint8_t* data, uint32_t data_size)
+on_data_callback(const uint8_t* data, uint32_t data_size)
 {
   (void)data;
   (void)data_size;
@@ -56,11 +57,18 @@ on_data_callback(uint8_t* data, uint32_t data_size)
 }
 
 int
-on_interest_timeout_callback(uint8_t* interest, uint32_t interest_size)
+on_interest_timeout_callback(const uint8_t* interest, uint32_t interest_size)
 {
   (void)interest;
   (void)interest_size;
   blink_led(interest_size);
+  return 0;
+}
+
+int
+on_interest(const uint8_t* interest, uint32_t interest_size)
+{
+  blink_led(3);
   return 0;
 }
 
@@ -70,17 +78,9 @@ on_error_callback(int error_code)
   blink_led(error_code);
 }
 
-int main(void)
+int
+main(void)
 {
-  const uint8_t extended_address[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
-  const uint8_t pan_id[]           = {0xd0, 0x0f};
-  const uint8_t short_address[]    = {0x12, 0x34};
-
-  ndn_interest_t interest;
-  ndn_interest_init(&interest);
-  char name_string[] = "/aaa/bbb/ccc/ddd";
-  ndn_name_from_string(&interest.name, name_string, sizeof(name_string));
-
   // initialization
   if (NRFX_SUCCESS != nrfx_gpiote_init())
     while(1) { /* endless */ };
@@ -88,17 +88,40 @@ int main(void)
   if (NRFX_SUCCESS != nrfx_uarte_init(&uart0, &uart_config, NULL))
     while(1) { /* endless */ };
 
-  ndn_nrf52840_init_802154_radio(extended_address, pan_id, short_address, false);
+  ndn_forwarder_t* forwarder;
+  ndn_nrf52840_802154_face_t* nrf_face;
+  ndn_direct_face_t* direct_face;
+  const uint8_t extended_address[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
+  const uint8_t pan_id[]           = {0xd0, 0x0f};
+  const uint8_t short_address[]    = {0x12, 0x34};
 
-  blink_led(1);
+  ndn_interest_t interest;
+  ndn_interest_init(&interest);
+  char name_string[] = "/ndn/bbb/ccc/ddd";
+  ndn_name_from_string(&interest.name, name_string, sizeof(name_string));
+  uint8_t interest_block[256] = {0};
+  ndn_encoder_t encoder;
+  encoder_init(&encoder, interest_block, 256);
+  ndn_interest_tlv_encode(&encoder, &interest);
 
-  // send interest
-  ndn_nrf52840_802154_express_interest(&interest,
-                                       on_data_callback,
-                                       on_interest_timeout_callback,
-                                       on_error_callback);
+  char prefix_string[] = "/ndn";
+  ndn_name_t prefix;
+  ndn_name_from_string(&prefix, prefix_string, sizeof(prefix_string));
 
-  blink_led(2);
+  forwarder = ndn_forwarder_init();
+  direct_face = ndn_direct_face_construct(124);
+  nrf_face = ndn_nrf52840_802154_face_construct(123, extended_address,
+                                                pan_id, short_address, false, on_error_callback);
+  // blink_led(1);
+  ndn_forwarder_fib_insert(&prefix, &nrf_face->intf, 1);
+  ndn_direct_face_express_interest(&interest.name,
+                                   interest_block, encoder.offset,
+                                   on_data_callback, on_interest_timeout_callback);
+  ndn_face_send(&nrf_face->intf, &interest.name, interest_block, encoder.offset);
+  // blink_led(2);
 
+  // blink_led(1);
+  // ndn_direct_face_register_prefix(&prefix, on_interest);
+  // blink_led(2);
   return 0;
 }

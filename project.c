@@ -114,16 +114,17 @@ main(void)
   direct_face = ndn_direct_face_construct(124);
   nrf_face = ndn_nrf_802154_face_construct(123, extended_address,
                                                 pan_id, short_address, false, on_error_callback);
-  // blink_led(1);
-  ndn_forwarder_fib_insert(&prefix, &nrf_face->intf, 1);
-  ndn_direct_face_express_interest(&interest.name,
-                                   interest_block, encoder.offset,
-                                   on_data_callback, on_interest_timeout_callback);
-  ndn_face_send(&nrf_face->intf, &interest.name, interest_block, encoder.offset);
-  // blink_led(2);
 
-  // blink_led(1);
-  // ndn_direct_face_register_prefix(&prefix, on_interest);
-  // blink_led(2);
+  // *************sender**************
+  // ndn_forwarder_fib_insert(&prefix, &nrf_face->intf, 1);
+  // ndn_direct_face_express_interest(&interest.name,
+  //                                  interest_block, encoder.offset,
+  //                                  on_data_callback, on_interest_timeout_callback);
+  // ndn_face_send(&nrf_face->intf, &interest.name, interest_block, encoder.offset);
+  // *************sender**************
+
+  // *************sender**************
+  ndn_direct_face_register_prefix(&prefix, on_interest);
+  // *************sender**************
   return 0;
 }

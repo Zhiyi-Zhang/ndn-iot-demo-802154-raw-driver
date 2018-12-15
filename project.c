@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <strings.h>
 
-#include <adaptation/ndn-nrf52840.h>
+#include <adaptation/ndn-nrf-802154-driver.h>
+#include <forwarder/forwarder.h>
 #include <face/direct-face.h>
+#include <face/ndn-nrf-802154-face.h>
 
 static const uint32_t led = NRF_GPIO_PIN_MAP(0,13);
 
@@ -89,7 +91,7 @@ main(void)
     while(1) { /* endless */ };
 
   ndn_forwarder_t* forwarder;
-  ndn_nrf52840_802154_face_t* nrf_face;
+  ndn_nrf_802154_face_t* nrf_face;
   ndn_direct_face_t* direct_face;
   const uint8_t extended_address[] = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef};
   const uint8_t pan_id[]           = {0xd0, 0x0f};
@@ -110,7 +112,7 @@ main(void)
 
   forwarder = ndn_forwarder_init();
   direct_face = ndn_direct_face_construct(124);
-  nrf_face = ndn_nrf52840_802154_face_construct(123, extended_address,
+  nrf_face = ndn_nrf_802154_face_construct(123, extended_address,
                                                 pan_id, short_address, false, on_error_callback);
   // blink_led(1);
   ndn_forwarder_fib_insert(&prefix, &nrf_face->intf, 1);

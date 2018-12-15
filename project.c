@@ -123,8 +123,8 @@ main(void)
   // ndn_face_send(&nrf_face->intf, &interest.name, interest_block, encoder.offset);
   // *************sender**************
 
-  // *************sender**************
+  // *************receiver**************
   ndn_direct_face_register_prefix(&prefix, on_interest);
-  // *************sender**************
+  // *************receiver**************
   return 0;
 }

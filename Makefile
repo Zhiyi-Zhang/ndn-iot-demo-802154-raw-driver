@@ -57,6 +57,10 @@ ndn_standalone/encode/name-component.c \
 ndn_standalone/encode/name.c \
 ndn_standalone/encode/signature.c \
 ndn_standalone/security/sign-verify.c \
+ndn_standalone/security/key-storage.c \
+ndn_standalone/security/crypto-key.c \
+ndn_standalone/security/random.c \
+ndn_standalone/security/aes.c \
 ndn_standalone/security/micro-ecc/uECC.c \
 ndn_standalone/security/tinycrypt/aes_decrypt.c \
 ndn_standalone/security/tinycrypt/aes_encrypt.c \
@@ -79,6 +83,8 @@ ndn_standalone/forwarder/face.c \
 ndn_standalone/forwarder/forwarder.c \
 ndn_standalone/face/direct-face.c \
 ndn_standalone/face/ndn-nrf-802154-face.c \
+ndn_standalone/app-support/access-control.c \
+ndn_standalone/app-support/service-discovery.c \
 	$(PROJECT_NAME).c
 
 ###
